@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
+    <link rel="icon" type="image/png" href="/logo.png" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surya Plus · Aditya Joshi | NEET 2027 Test Series &amp; AIIMS Delhi Mentorship</title>
@@ -147,30 +148,7 @@
             box-shadow: 0 20px 30px -10px rgba(14, 116, 144, 0.12);
             border-color: #06B6D4;
         }
-
-        /* Flip Countdown Unit */
-        .flip-unit {
-            position: relative;
-            width: 76px;
-            height: 84px;
-        }
-        .flip-card-inner {
-            width: 100%;
-            height: 100%;
-            background: #0F172A;
-            color: #22D3EE;
-            border-radius: 14px;
-            border: 1px solid rgba(6, 182, 212, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.25rem;
-            font-weight: 800;
-            font-variant-numeric: tabular-nums;
-            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25);
-        }
-
-        /* Infinite Testimonials Marquee */
+/* Infinite Testimonials Marquee */
         @keyframes marqueeScroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -244,7 +222,7 @@
         @media (max-width: 767px) {
             /*
              * Mobile-only header fix:
-             * Keep the announcement area sticky at the top,
+             * Keep the live announcement ribbon sticky at the top,
              * but let the liquid-glass navigation header scroll away normally.
              * Desktop/tablet layout and all page content remain unchanged.
              */
@@ -257,16 +235,58 @@
 
             /* The wrapper has Tailwind's sticky top-11 classes.
                Override them only on mobile so the glass header does not remain pinned. */
-            body > div.sticky.top-0 {
+            body > div.sticky.top-11 {
                 position: relative !important;
                 top: auto !important;
                 z-index: 50;
             }
 
-            .liquid-glass-dock { border-radius: 1.25rem; padding-left: .65rem; padding-right: .65rem; gap: .4rem; }
-            .header-mentorship-btn { font-size: 10px; padding: 8px 10px; gap: 4px; white-space: normal; line-height: 1.15; max-width: 118px; text-align: center; }
+            .liquid-glass-dock {
+                width: 100%;
+                border-radius: 1.25rem;
+                padding-left: .55rem;
+                padding-right: .55rem;
+                gap: .45rem;
+                justify-content: space-between;
+            }
+            /* Use the available mobile header width instead of leaving a large empty gap. */
+            .liquid-glass-dock > a:first-child {
+                flex: 0 0 42px;
+                width: 42px;
+                margin: 0;
+            }
+            .liquid-glass-dock > a:first-child > div:first-child {
+                width: 40px;
+                height: 40px;
+            }
+            .header-actions {
+                flex: 1 1 0%;
+                min-width: 0;
+                gap: .45rem;
+                justify-content: space-between;
+            }
+            .header-mentorship-btn {
+                flex: 1 1 0%;
+                width: auto;
+                min-width: 0;
+                max-width: none;
+                font-size: 12px;
+                padding: 10px 8px;
+                gap: 4px;
+                white-space: normal;
+                line-height: 1.2;
+                text-align: center;
+                justify-content: center;
+            }
+            .header-mentorship-btn span { display: block; }
             .header-mentorship-btn i { display: none; }
-            #mobile-toggle-btn { flex: 0 0 36px; }
+            .header-actions > button[onclick*="web.classplusapp.com"] {
+                flex: 0 0 auto;
+                margin-left: 0;
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            #mobile-toggle-btn { flex: 0 0 36px; width: 36px; height: 36px; }
             .flip-unit { width: clamp(42px, 12vw, 60px); height: clamp(52px, 14vw, 64px); }
             .flip-card-inner { font-size: clamp(1.15rem, 5vw, 1.75rem); border-radius: 10px; }
             #page-home .overflow-x-auto { -webkit-overflow-scrolling: touch; }
@@ -277,54 +297,164 @@
             .elevated-card:hover { transform: none; }
         }
         @media (max-width: 380px) {
-            .header-mentorship-btn { max-width: 92px; font-size: 9px; padding: 7px; }
-            .liquid-glass-dock { padding-top: .45rem; padding-bottom: .45rem; }
+            .header-mentorship-btn { min-width: 0; max-width: none; font-size: 11px; padding: 8px 5px; }
+            .header-actions { gap: .3rem; }
+            .header-actions > button[onclick*="web.classplusapp.com"] { padding: 7px 9px; font-size: 11px; }
+            .liquid-glass-dock { padding-top: .45rem; padding-bottom: .45rem; gap: .35rem; }
             .ann-bar-sticky { padding-left: .5rem; padding-right: .5rem; }
         }
 
-
-        /* Blue/cyan activity notification, matched to the site's existing theme */
-        .sample-activity-toast {
-            position: fixed; left: 16px; bottom: 18px; z-index: 100; width: min(350px, calc(100vw - 32px));
-            display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px;
-            color: #0F172A; background: rgba(239, 248, 255, .98); border: 1px solid #67B7F7;
-            border-radius: 16px; box-shadow: 0 18px 45px rgba(2, 32, 71, .24);
-            opacity: 0; transform: translateY(16px); pointer-events: none;
-            transition: opacity .3s ease, transform .3s ease;
+    
+        /* First-visit roadblock overlay */
+        .site-roadblock {
+            position: fixed;
+            inset: 0;
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            background: rgba(2, 6, 23, .94);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
-        .sample-activity-toast.is-visible { opacity: 1; transform: translateY(0); }
-        .sample-activity-icon { width: 40px; height: 40px; flex: 0 0 40px; border-radius: 50%; display: grid; place-items: center; background: #DCEEFF; color: #075985; font-size: 20px; }
-        .sample-activity-label { display: inline-block; font-size: 9px; line-height: 1.3; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #075985; background: #DCEEFF; border-radius: 999px; padding: 4px 7px; margin-bottom: 5px; }
-        @media (prefers-reduced-motion: reduce) { .sample-activity-toast { transition: none; } }
+        .site-roadblock-card {
+            width: min(100%, 760px);
+            max-height: calc(100dvh - 36px);
+            overflow-y: auto;
+            border-radius: 24px;
+            background: #fff;
+            border: 1px solid rgba(255,255,255,.25);
+            box-shadow: 0 25px 80px rgba(0,0,0,.45);
+        }
+        .site-roadblock-photo {
+            display: block;
+            width: 100%;
+            max-height: 52vh;
+            object-fit: contain;
+            background: #0F172A;
+        }
+        @media (max-width: 640px) {
+            .site-roadblock { padding: 10px; }
+            .site-roadblock-card { border-radius: 18px; max-height: calc(100dvh - 20px); }
+            .site-roadblock-photo { max-height: 43vh; }
+        }
+
+        /* Purchase-style toast notification demo - matches the existing cyan/navy theme */
+        .sample-activity-toast {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            width: min(390px, calc(100vw - 32px));
+            padding: 15px 14px;
+            color: #0F172A;
+            background: linear-gradient(135deg, #FFFFFF 0%, #ECFEFF 100%);
+            border: 1px solid #A5F3FC;
+            border-left: 4px solid #06B6D4;
+            border-radius: 16px;
+            box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(6, 182, 212, 0.08);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(16px);
+            pointer-events: none;
+            transition: opacity .28s ease, transform .28s ease, visibility .28s ease;
+        }
+        .sample-activity-toast.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .sample-activity-icon {
+            display: flex;
+            flex: 0 0 38px;
+            width: 38px;
+            height: 38px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            color: #0E7490;
+            background: #CFFAFE;
+            border: 1px solid #A5F3FC;
+            font-size: 21px;
+        }
+        .sample-activity-toast #sample-activity-person {
+            color: #0F172A;
+            overflow-wrap: anywhere;
+        }
+        .sample-activity-toast #sample-activity-message {
+            color: #475569;
+        }
+        @media (max-width: 480px) {
+            .sample-activity-toast {
+                left: 12px;
+                bottom: 12px;
+                width: calc(100vw - 24px);
+                padding: 12px;
+                gap: 10px;
+            }
+        }
+
     </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
 
-    <!-- LIVE ANNOUNCEMENT BAR -->
-    <div class="ann-bar-sticky px-3 sm:px-6 py-2.5" role="region" aria-label="Surya Plus launch announcement">
-        <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
-            <div class="flex items-center gap-2.5 min-w-0">
-                <span class="relative flex h-2.5 w-2.5 flex-shrink-0">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-70"></span>
-                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-400"></span>
-                </span>
-                <span class="text-white text-xs sm:text-sm font-extrabold tracking-wide">SURYA PLUS TEST SERIES <span class="text-brand-300">IS LIVE NOW</span></span>
+    <!-- FIRST-VISIT ROADBLOCK: replace ./roadblock-photo.jpg with your local image filename -->
+    <section id="site-roadblock" class="site-roadblock" role="dialog" aria-modal="true" aria-labelledby="roadblock-title">
+        <div class="site-roadblock-card">
+            <img class="site-roadblock-photo" src="./image.jpeg"
+                 alt="Surya Plus announcement"
+                 onerror="this.onerror=null;this.src='https://placehold.co/1200x700/0F172A/00F0FF?text=Add+Your+Roadblock+Photo';">
+            <div class="p-5 sm:p-7 text-center">
+                <p class="text-xs font-bold uppercase tracking-[.2em] text-cyan-700">SURYA PLUS · NEET 2027</p>
+                <h2 id="roadblock-title" class="text-xl sm:text-2xl font-extrabold text-slate-950 mt-2">Surya Plus Is LIVE NOW</h2>
+                <p class="text-sm text-slate-600 mt-2">The wait is over. Your NEET 2027 test series journey starts here.</p>
+                <div class="mt-5 flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="https://example.com/buy-now" target="_blank" rel="noopener noreferrer" class="btn-glow text-white font-extrabold px-6 py-3 rounded-xl inline-flex items-center justify-center gap-2">
+                        <i class="ph ph-shopping-cart text-xl"></i> BUY NOW
+                    </a>
+                    <button type="button" onclick="dismissRoadblock()" class="px-6 py-3 rounded-xl font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200">
+                        Continue to Website
+                    </button>
+                </div>
             </div>
-            <a href="https://example.com/buy-now" target="_blank" rel="noopener noreferrer" class="flex-shrink-0 inline-flex items-center gap-1.5 rounded-full bg-brand-400 hover:bg-brand-300 text-slate-950 font-extrabold text-xs sm:text-sm px-4 py-2 transition-colors">
-                Buy Now <i class="ph ph-arrow-right"></i>
-            </a>
         </div>
-    </div>
+    </section>
+
+    <!-- 1. TOP LAUNCH RIBBON TICKER -->
+    <aside class="ann-bar-sticky text-white text-xs sm:text-sm py-2 px-4 shadow-sm">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-center sm:text-left">
+            <div class="flex items-center gap-2.5 mx-auto sm:mx-0">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-cyan-950 text-cyan-300 border border-cyan-700/60 shadow-sm">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping mr-1.5"></span>
+                    LIVE NOW
+                </span>
+                <span class="font-medium text-slate-200">
+                    <span class="text-cyan-300 font-bold">Surya Plus is LIVE NOW!</span> · 
+                    <span class="text-amber-300 font-semibold">Your NEET 2027 preparation starts today</span>
+                </span>
+            </div>
+            <div class="flex items-center gap-3 mx-auto sm:mx-0">
+                <a href="https://example.com/buy-now" target="_blank" rel="noopener noreferrer" class="btn-glow text-white font-bold px-4 py-2 rounded-full text-xs inline-flex items-center gap-1">
+                    BUY NOW <i class="ph ph-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </aside>
 
     <!-- 2. STICKY APPLE LIQUID GLASS CAPSULE HEADER (DASHBOARD REMOVED AS REQUESTED) -->
-    <div class="sticky top-[44px] sm:top-[48px] z-50 w-full px-3 sm:px-6 py-2.5 pointer-events-none">
+    <div class="sticky top-11 z-50 w-full px-3 sm:px-6 py-2.5 pointer-events-none">
         <header class="max-w-7xl mx-auto pointer-events-auto">
             <div class="liquid-glass-dock px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3 sm:gap-4">
                 
                 <!-- Left: Logo Badge -->
                 <a onclick="navigateTo('home')" class="flex items-center gap-3 cursor-pointer group flex-shrink-0">
                     <div class="w-10 h-10 rounded-full bg-white/10 p-1.5 border border-white/20 flex items-center justify-center group-hover:scale-105 transition-transform">
-                        <img src="https://d502jbuhuh9wk.cloudfront.net/logos/664a14d52fd4b2450b59600e.png?v=2" 
+                        <img src="./logo.png" 
                              alt="Aditya Joshi Logo" 
                              class="w-full h-full object-contain brightness-125"
                              onerror="this.src='https://placehold.co/80x80/0F172A/FFFFFF?text=AJ'">
@@ -345,7 +475,7 @@
                 </nav>
 
                 <!-- Right Items: Join Mentorship Program Button, App Badges, and Login -->
-                <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                <div class="header-actions flex items-center gap-2 sm:gap-3 flex-shrink-0">
                     <!-- Join Mentorship Program Pill -->
                     <a onclick="navigateTo('mentor')" class="header-mentorship-btn cursor-pointer">
                         <i class="ph-fill ph-crown text-navy-950"></i>
@@ -394,6 +524,17 @@
                 <a onclick="navigateTo('hall'); toggleMobileMenu();" class="block px-4 py-2 rounded-xl hover:bg-white/10 text-sm font-semibold">Hall of Fame</a>
                 <a onclick="navigateTo('contact'); toggleMobileMenu();" class="block px-4 py-2 rounded-xl hover:bg-white/10 text-sm font-semibold">Contact Us</a>
                 <a onclick="navigateTo('mentor'); toggleMobileMenu();" class="block px-4 py-2 rounded-xl bg-cyan-950 text-cyan-300 font-bold border border-cyan-700 text-sm">Join Mentorship Program</a>
+                <div class="pt-2 mt-2 border-t border-white/15">
+                    <p class="px-4 pb-2 text-[11px] font-bold uppercase tracking-widest text-slate-400">Download App</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="https://play.google.com/store/apps/details?id=co.mark.ppgjx&amp;hl=en_IN" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 px-3 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-sm font-bold text-white">
+                            <i class="ph-fill ph-google-play-logo text-lg text-cyan-300"></i> Android App
+                        </a>
+                        <a href="https://apps.apple.com/in/app/aditya-joshi/id6748600584" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 px-3 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-sm font-bold text-white">
+                            <i class="ph-fill ph-apple-logo text-lg text-cyan-300"></i> iOS App
+                        </a>
+                    </div>
+                </div>
             </div>
         </header>
     </div>
@@ -443,17 +584,37 @@
                             </div>
                         </div>
 
+                        <!-- Surya Plus is live now -->
+                        <div class="bg-white/90 backdrop-blur rounded-2xl p-6 border border-cyan-200 shadow-lg max-w-xl mx-auto lg:mx-0">
+                            <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+                                <span class="font-mono text-xs font-extrabold tracking-widest uppercase text-cyan-700 flex items-center gap-2">
+                                    <span class="relative flex h-2.5 w-2.5">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-600"></span>
+                                    </span>
+                                    SURYA PLUS · LIVE NOW
+                                </span>
+                                <span class="text-xs font-bold bg-cyan-100 text-cyan-800 px-2.5 py-1 rounded-full uppercase tracking-wider">
+                                    ENROLMENTS OPEN
+                                </span>
+                            </div>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-950">The wait is over. Your next score starts here.</h2>
+                            <p class="text-sm text-slate-600 mt-2">Get instant access to all 30 NEET 2027 prediction mocks, detailed solutions and proof videos.</p>
+                        </div>
+
                         <!-- CTA buttons -->
                         <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start pt-2">
-                            <a href="https://example.com/buy-now" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto btn-glow text-white font-bold px-7 py-4 rounded-xl flex items-center justify-center gap-3 text-base">Buy Now <i class="ph ph-arrow-right"></i></a>
+                            <a href="https://example.com/buy-now" target="_blank" rel="noopener noreferrer"
+                                    class="w-full sm:w-auto btn-glow text-white font-bold px-7 py-4 rounded-xl flex items-center justify-center gap-3 text-base">
+                                <i class="ph ph-shopping-cart text-xl"></i>
+                                BUY NOW
+                            </a>
                             <a href="#home-results" 
                                class="w-full sm:w-auto px-6 py-4 rounded-xl font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 text-center transition-colors">
                                 Watch the proof first ↓
                             </a>
                         </div>
-                        <p class="text-xs text-slate-500 font-mono">
-                            <i class="ph ph-shield-check text-cyan-600 mr-1"></i>One message at 6:55 PM on 9 Nov with the link.
-                        </p>
+                        
                     </div>
 
                     <!-- Right visual photos -->
@@ -582,8 +743,8 @@
                             <tbody class="divide-y divide-slate-100">
                                 <tr>
                                     <td class="p-5 font-bold text-slate-800">Tests</td>
-                                    <td class="p-5 font-extrabold text-cyan-900 bg-cyan-50/30 border-x border-cyan-100 text-center">Only 30</td>
-                                    <td class="p-5 text-slate-600 text-center">50–150+</td>
+                                    <td class="p-5 font-extrabold text-cyan-900 bg-cyan-50/30 border-x border-cyan-100 text-center">Only 30.PRECISE PAPER PREDICTION.</td>
+                                    <td class="p-5 text-slate-600 text-center">50–150+ for useless question practice.</td>
                                 </tr>
                                 <tr>
                                     <td class="p-5 font-bold text-slate-800">Built for</td>
@@ -607,14 +768,14 @@
                                 </tr>
                                 <tr>
                                     <td class="p-5 font-bold text-slate-800">Price</td>
-                                    <td class="p-5 font-black text-cyan-800 bg-cyan-50/50 border-x border-cyan-100 text-center text-base">₹2,999 (Special Launch Offer)</td>
+                                    <td class="p-5 font-black text-cyan-800 bg-cyan-50/50 border-x border-cyan-100 text-center text-base">₹2,999 (FLAT 30% OFF)</td>
                                     <td class="p-5 text-slate-600 text-center">₹2,000 – ₹15,000</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <p class="text-center text-slate-500 text-sm mt-8">They do different jobs. Plenty of students use both.</p>
+                <p class="text-center text-slate-500 text-sm mt-8">They do different jobs.AIIMS DELHI TOPPERS Used surya plus.</p>
             </div>
         </section>
 
@@ -628,6 +789,7 @@
                         <p>Most test series give you 50, 100, 150 tests of random questions. That's useful for practice — but it doesn't tell you what NEET will actually ask.</p>
                         <p>Surya Plus does one job: it predicts the paper. Our team went through every line of NCERT, NCERT Exemplar, 30 years of NEET papers, 30 years of JEE Main, JEE Advanced and NTA's sample papers, and found the concepts NTA keeps coming back to.</p>
                         <p>Those became 30 tests. Fewer tests means you can analyse every single question properly. That's where the marks come from.</p>
+                        <p>All these are already covered in surya plus mocks. </p>	
                     </div>
                 </div>
 
@@ -739,7 +901,9 @@
                         </div>
                     </div>
                     <div class="mt-8">
-                        <a href="https://example.com/buy-now" target="_blank" rel="noopener noreferrer" class="btn-glow text-white font-bold px-8 py-3.5 rounded-xl inline-flex items-center gap-2">Buy Now <i class="ph ph-arrow-right"></i></a>
+                        <a href="https://example.com/buy-now" target="_blank" rel="noopener noreferrer" class="btn-glow text-white font-bold px-8 py-3.5 rounded-xl inline-flex items-center gap-2">
+                            <i class="ph ph-shopping-cart text-xl"></i> BUY NOW
+                        </a>
                     </div>
                 </div>
             </div>
@@ -752,7 +916,7 @@
                     <span class="text-xs font-mono uppercase tracking-widest text-slate-500 font-bold block text-center">SURYA PLUS · NEET 2027</span>
                     <div class="text-center my-4">
                         <span class="text-5xl sm:text-6xl font-black text-navy-950">₹2,999</span>
-                        <p class="text-xs font-mono text-cyan-800 font-bold uppercase tracking-wider mt-2">Special Launch Offer</p>
+                        <p class="text-xs font-mono text-cyan-800 font-bold uppercase tracking-wider mt-2">FLAT 30% OFF · BUY NOW</p>
                     </div>
 
                     <div class="my-6 py-4 border-y border-slate-200 space-y-3 text-sm text-slate-700">
@@ -764,7 +928,9 @@
                         <div class="flex items-center gap-2.5 font-bold text-emerald-700"><i class="ph-fill ph-check-circle text-emerald-600 text-lg"></i><span>650+ guarantee</span></div>
                     </div>
 
-                    <a href="https://example.com/buy-now" target="_blank" rel="noopener noreferrer" class="w-full btn-glow text-white font-extrabold py-4 px-6 rounded-xl flex items-center justify-center gap-2 shadow-lg">Buy Now <i class="ph ph-arrow-right"></i></a>
+                    <a href="https://example.com/buy-now" target="_blank" rel="noopener noreferrer" class="w-full btn-glow text-white font-extrabold py-4 px-6 rounded-xl flex items-center justify-center gap-2 shadow-lg">
+                        <i class="ph ph-shopping-cart text-xl"></i> BUY NOW
+                    </a>
                     <h3 class="text-center font-bold text-slate-800 text-base mt-4">2999 • The investment to make you score under 100 Rank.</h3>
                     <p class="text-center text-xs text-slate-500 mt-1">Secure payment · UPI, cards, net banking</p>
                 </div>
@@ -791,7 +957,7 @@
                             <i class="ph ph-tag"></i>
                         </div>
                         <h3 class="text-lg font-bold text-navy-950 mb-2">What it costs</h3>
-                        <p class="text-sm text-slate-600 leading-relaxed">₹2,999 — Special Launch Offer</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">₹2,999 — FLAT 30% OFF · BUY NOW</p>
                     </div>
                     <div class="bg-white p-7 rounded-2xl border border-slate-200 shadow-sm">
                         <div class="w-12 h-12 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-2xl mb-4 border border-cyan-200">
@@ -1392,7 +1558,9 @@
                             </div>
                         </div>
                         <div class="p-6 pt-0">
-                            <a href="https://example.com/buy-now" target="_blank" rel="noopener noreferrer" class="w-full btn-glow text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2">Buy Now <i class="ph ph-arrow-right"></i></a>
+                            <a href="https://example.com/buy-now" target="_blank" rel="noopener noreferrer" class="w-full btn-glow text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2">
+                                BUY NOW <i class="ph ph-arrow-right"></i>
+                            </a>
                         </div>
                     </div>
 
@@ -1448,6 +1616,116 @@
 
     <div class="p-6 pt-0">
         <a href="https://www.adityajoshi.org/courses/914543"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer">
+            Enroll Now <i class="ph ph-arrow-right"></i>
+        </a>
+    </div>
+</div>
+<!-- Course 4: CHEMISTRY NCERT LINE BY LINE QUESTION BANKS -->
+                    
+<div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between">
+    <div>
+        <div class="aspect-[16/9] relative overflow-hidden bg-slate-900">
+            <img src="/course (1).png" alt="Free Notes" class="w-full h-full object-cover">
+            <span class="absolute top-3 left-3 bg-emerald-600 text-white font-bold text-[10px] font-mono px-2.5 py-1 rounded uppercase">Test Series</span>
+        </div>
+
+        <div class="p-6">
+            <p class="text-xs font-mono font-bold text-slate-400 uppercase">Dr. Aditya Joshi</p>
+
+            <h3 class="text-lg font-extrabold text-navy-950 mt-1">
+                CHEMISTRY NCERT LINE BY LINE QUESTION BANKS 
+            </h3>
+
+            <p class="text-xs text-slate-600 mt-2">
+                (QUESTIONS FROM EACH LINE OF NCERT) 100% NCERT COVERAGE
+            </p>
+
+            <div class="mt-4 flex items-baseline gap-2">
+                <span class="text-2xl font-black text-navy-950">₹299</span>
+                                    <span class="text-xs text-slate-400 line-through">₹999</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-6 pt-0">
+        <a href="https://www.adityajoshi.org/courses/843555"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer">
+            Enroll Now <i class="ph ph-arrow-right"></i>
+        </a>
+    </div>
+</div>
+<!-- Course 3: Free AIIMS Notes -->
+                    
+<div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between">
+    <div>
+        <div class="aspect-[16/9] relative overflow-hidden bg-slate-900">
+            <img src="/course (2).png" alt="Free Notes" class="w-full h-full object-cover">
+            <span class="absolute top-3 left-3 bg-emerald-600 text-white font-bold text-[10px] font-mono px-2.5 py-1 rounded uppercase">Test Series</span>
+        </div>
+
+        <div class="p-6">
+            <p class="text-xs font-mono font-bold text-slate-400 uppercase">Dr. Aditya Joshi</p>
+
+            <h3 class="text-lg font-extrabold text-navy-950 mt-1">
+                PHYSICS NCERT LINE BY LINE QUESTIONS BANK 
+            </h3>
+
+            <p class="text-xs text-slate-600 mt-2">
+                (100% NCERT COVERAGE)
+            </p>
+
+            <div class="mt-4 flex items-baseline gap-2">
+                <span class="text-2xl font-black text-navy-950">₹299</span>
+                                    <span class="text-xs text-slate-400 line-through">₹999</span>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="p-6 pt-0">
+        <a href="https://www.adityajoshi.org/courses/843514"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer">
+            Enroll Now <i class="ph ph-arrow-right"></i>
+        </a>
+    </div>
+</div>
+<!-- Course 3: Free AIIMS Notes -->
+                    
+<div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col justify-between">
+    <div>
+        <div class="aspect-[16/9] relative overflow-hidden bg-slate-900">
+            <img src="/course (3).png" alt="Free Notes" class="w-full h-full object-cover">
+            <span class="absolute top-3 left-3 bg-emerald-600 text-white font-bold text-[10px] font-mono px-2.5 py-1 rounded uppercase">Test Series</span>
+        </div>
+
+        <div class="p-6">
+            <p class="text-xs font-mono font-bold text-slate-400 uppercase">Dr. Aditya Joshi</p>
+
+            <h3 class="text-lg font-extrabold text-navy-950 mt-1">
+                BIO NCERT LINE BY LINE QUESTION BANK 
+            </h3>
+
+            <p class="text-xs text-slate-600 mt-2">
+                (QUESTION FROM EACH LINE OF NCERT)
+            </p>
+
+            <div class="mt-4 flex items-baseline gap-2">
+                <span class="text-2xl font-black text-navy-950">₹299</span>
+                                    <span class="text-xs text-slate-400 line-through">₹999</span>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="p-6 pt-0">
+        <a href="https://www.adityajoshi.org/courses/843511"
            target="_blank"
            rel="noopener noreferrer"
            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer">
@@ -1766,6 +2044,34 @@
                     <div onclick="openLightbox('https://d502jbuhuh9wk.cloudfront.net/ai_web/664a14d52fd4b2450b59600e/media/image/788f6abd-7417-4095-ab99-8574128641fc-hof-02.jpg')" class="aspect-[3/4] rounded-2xl overflow-hidden bg-slate-900 border border-slate-200 shadow-md cursor-pointer hover:scale-105 transition-all">
                         <img src="https://d502jbuhuh9wk.cloudfront.net/ai_web/664a14d52fd4b2450b59600e/media/image/788f6abd-7417-4095-ab99-8574128641fc-hof-02.jpg" alt="Topper Poster" class="w-full h-full object-contain">
                     </div>
+            
+
+                    <div onclick="openLightbox('.\hall (1).jpeg')" class="aspect-[3/4] rounded-2xl overflow-hidden bg-slate-900 border border-slate-200 shadow-md cursor-pointer hover:scale-105 transition-all">
+                        <img src=".\hall (1).jpeg" alt="Topper Poster" class="w-full h-full object-contain">
+                    </div>
+                    <div onclick="openLightbox('.\hall (2).jpeg')" class="aspect-[3/4] rounded-2xl overflow-hidden bg-slate-900 border border-slate-200 shadow-md cursor-pointer hover:scale-105 transition-all">
+                        <img src=".\hall (2).jpeg" alt="Topper Poster" class="w-full h-full object-contain">
+                    </div>
+                    <div onclick="openLightbox('.\hall (3).jpeg')" class="aspect-[3/4] rounded-2xl overflow-hidden bg-slate-900 border border-slate-200 shadow-md cursor-pointer hover:scale-105 transition-all">
+                        <img src=".\hall (3).jpeg" alt="Topper Poster" class="w-full h-full object-contain">
+                    </div>
+                    <div onclick="openLightbox('.\hall (4).jpeg')" class="aspect-[3/4] rounded-2xl overflow-hidden bg-slate-900 border border-slate-200 shadow-md cursor-pointer hover:scale-105 transition-all">
+                        <img src=".\hall (4).jpeg" alt="Topper Poster" class="w-full h-full object-contain">
+                    </div>
+                    <div onclick="openLightbox('.\hall (5).jpeg')" class="aspect-[3/4] rounded-2xl overflow-hidden bg-slate-900 border border-slate-200 shadow-md cursor-pointer hover:scale-105 transition-all">
+                        <img src=".\hall (5).jpeg" alt="Topper Poster" class="w-full h-full object-contain">
+                    </div>
+                    <div onclick="openLightbox('.\hall (6).jpeg')" class="aspect-[3/4] rounded-2xl overflow-hidden bg-slate-900 border border-slate-200 shadow-md cursor-pointer hover:scale-105 transition-all">
+                        <img src=".\hall (6).jpeg" alt="Topper Poster" class="w-full h-full object-contain">
+                    </div>
+                    <div onclick="openLightbox('.\hall (7).jpeg')" class="aspect-[3/4] rounded-2xl overflow-hidden bg-slate-900 border border-slate-200 shadow-md cursor-pointer hover:scale-105 transition-all">
+                        <img src=".\hall (7).jpeg" alt="Topper Poster" class="w-full h-full object-contain">
+                    </div>
+                    <div onclick="openLightbox('.\hall (8).jpeg')" class="aspect-[3/4] rounded-2xl overflow-hidden bg-slate-900 border border-slate-200 shadow-md cursor-pointer hover:scale-105 transition-all">
+                        <img src=".\hall (8).jpeg" alt="Topper Poster" class="w-full h-full object-contain">
+                    </div>
+
+
                 </div>
 
                 <div class="mt-14 text-center">
@@ -2020,29 +2326,199 @@
                         <p class="text-slate-600 text-sm mt-2">Connect with India's top medical mentors and access proven strategies used by 30+ AIIMS Delhi toppers. Join our exclusive community of 600+ high-achieving AIIMS students.</p>
                     </div>
 
-                    <form onsubmit="handleContactSubmit(event)" class="space-y-4 max-w-lg mx-auto">
+                    <form id="contact-lead-form" onsubmit="handleContactSubmit(event)" class="space-y-4 max-w-lg mx-auto">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Name</label>
-                            <input type="text" required placeholder="Your full name" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-cyan-500">
+                            <input type="text" name="name" required maxlength="100" autocomplete="name" placeholder="Your full name" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-cyan-500">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Email</label>
-                            <input type="email" required placeholder="name@example.com" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-cyan-500">
+                            <input type="email" name="email" required maxlength="254" autocomplete="email" placeholder="name@example.com" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-cyan-500">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Mobile</label>
-                            <input type="tel" pattern="[0-9]{10}" placeholder="+91 (10-digit number)" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-cyan-500">
+                            <input type="tel" name="mobile" pattern="[0-9]{10}" maxlength="10" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile number" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-cyan-500">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Message</label>
-                            <textarea rows="3" placeholder="What's on your mind?" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-cyan-500"></textarea>
+                            <textarea name="message" rows="3" maxlength="3000" placeholder="What's on your mind?" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-cyan-500"></textarea>
                         </div>
-                        <button type="submit" class="w-full btn-glow text-white font-bold py-3.5 rounded-xl text-sm">
+                        <button id="contact-submit-btn" type="submit" class="w-full btn-glow text-white font-bold py-3.5 rounded-xl text-sm">
                             Submit
                         </button>
+                        <p id="contact-form-status" class="hidden text-sm text-center" role="status" aria-live="polite"></p>
                     </form>
                 </div>
             </div>
+        </section>
+    </div>
+<div id="page-refund" class="page-view">
+        <section class="py-12 sm:py-16 bg-navy-950 text-white text-center">
+            <div class="max-w-4xl mx-auto px-4 min-w-0">
+                <span class="text-xs font-mono font-bold uppercase tracking-widest text-cyan-400 bg-cyan-950 px-3 py-1 rounded-full border border-cyan-800">Customer Support &amp; Legal</span>
+                <h1 class="text-3xl sm:text-5xl font-black mt-3">Refund &amp; Cancellation Policy</h1>
+                <p class="text-slate-300 text-sm mt-3">Operated by: MORVANT VENTURES PRIVATE LIMITED</p>
+                <p class="text-slate-400 text-xs sm:text-sm mt-1">Last Updated: September 2026</p>
+            </div>
+        </section>
+        <section class="py-8 sm:py-14 bg-white text-slate-700 leading-relaxed">
+            <article class="refund-policy-content max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 text-sm sm:text-base">
+                <p>This Refund &amp; Cancellation Policy governs purchases made through the Aditya Joshi platform, including its website, mobile applications, mentorship programs, test series, courses, digital learning content, subscriptions, and other educational services operated by MORVANT VENTURES PRIVATE LIMITED (“Company”, “we”, “us”, or “our”).</p>
+                <p>By purchasing any course, program, test series, subscription, or digital educational product from us, you acknowledge that you have read and agreed to this Refund &amp; Cancellation Policy.</p>
+                <p class="text-sm text-slate-500">Operated by: MORVANT VENTURES PRIVATE LIMITED</p>
+                <p class="text-sm text-slate-500">Last Updated: September 2026</p>
+                <p>This Refund &amp; Cancellation Policy governs purchases made through the Aditya Joshi platform, including its website, mobile applications, mentorship programs, test series, courses, digital learning content, subscriptions, and other educational services operated by MORVANT VENTURES PRIVATE LIMITED (“Company”, “we”, “us”, or “our”).</p>
+                <p>By purchasing any course, program, test series, subscription, or digital educational product from us, you acknowledge that you have read and agreed to this Refund &amp; Cancellation Policy.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">1. General Refund Policy</h2>
+                <p>The default policy of MORVANT VENTURES PRIVATE LIMITED is that all courses, programs, test series, subscriptions, and digital products are non-refundable unless the specific course or product is expressly identified as refundable at the time of purchase.</p>
+                <p>Simply purchasing a course does not create a right to a refund.</p>
+                <p>A refund will be considered only where:</p>
+                <ol class="list-decimal pl-6 space-y-2">
+                <li>The specific course or product is expressly advertised or described as “Refundable,” “Money-Back Guarantee,” “Guaranteed Score Improvement,” or under another clearly stated refund/guarantee policy; and</li>
+                <li>The student satisfies all conditions, eligibility requirements, timelines, and other terms specified for that particular refund policy.</li>
+                </ol>
+                <p>If no refund or money-back provision is specifically mentioned on the relevant course/product page, checkout page, offer, or applicable written terms, the course/product shall be treated as non-refundable.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">2. Course-Specific Refund Policies</h2>
+                <p>Different courses and programs may have different refund conditions.</p>
+                <p>The refund terms applicable to a particular course will be determined by the refund policy specifically communicated for that course at the time of purchase.</p>
+                <p>Where a course is specifically marked as refundable, the applicable course-specific terms shall take precedence over the general provisions of this policy to the extent of any inconsistency.</p>
+                <p>Where a course is not specifically marked as refundable, no refund shall ordinarily be available.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">3. Surya Plus Paper Prediction Test Series</h2>
+                <p>The Surya Plus Paper Prediction Test Series, including its different editions, versions, batches, mock tests, and related digital test-series products, is a NON-REFUNDABLE PRODUCT, unless MORVANT VENTURES PRIVATE LIMITED expressly announces otherwise for a particular offering in writing.</p>
+                <p>Accordingly:</p>
+                <ul class="list-disc pl-6 space-y-2">
+                <li>Payment made for Surya Plus is generally final and non-refundable.</li>
+                <li>Non-use of the test series does not create an automatic right to a refund.</li>
+                <li>Failure to attempt tests, incomplete usage, lack of preparation, change of study plans, change of examination plans, or personal circumstances do not ordinarily qualify for a refund.</li>
+                <li>Technical issues, where applicable, may be addressed by the Company through troubleshooting, restoration of access, extension of validity, or another appropriate solution at the Company’s discretion, rather than through a refund.</li>
+                <li>Any promotional offer, discount, coupon, or limited-period sale does not alter the non-refundable nature of the product unless expressly stated otherwise.</li>
+                </ul>
+                <p>Any exceptional refund or compensation arrangement, if offered for a particular Surya Plus batch or promotion, will be governed by the specific terms communicated with that offer.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">4. Mentorship Program</h2>
+                <p>The Aditya Joshi Mentorship Program is generally NON-REFUNDABLE.</p>
+                <p>However, MORVANT VENTURES PRIVATE LIMITED may, for selected mentorship intakes or specific promotional offers, introduce a Money-Back Guarantee, Guaranteed Score Improvement, or similar refund-based assurance.</p>
+                <p>Such a guarantee will apply only when it is expressly mentioned in the relevant course description, enrollment page, offer, or written terms applicable to that particular intake.</p>
+                <p>A money-back guarantee offered for one mentorship intake shall not automatically apply to:</p>
+                <ul class="list-disc pl-6 space-y-2">
+                <li>Previous or subsequent intakes;</li>
+                <li>Other mentorship plans;</li>
+                <li>Monthly or yearly plans that do not expressly contain the guarantee;</li>
+                <li>Other courses or products offered by MORVANT VENTURES PRIVATE LIMITED.</li>
+                </ul>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">4.1 Conditions of a Mentorship Money-Back Guarantee</h2>
+                <p>Where a specific mentorship intake includes a money-back or guaranteed score-improvement policy, the student must satisfy all conditions stated in the applicable guarantee terms.</p>
+                <p>These conditions may include, without limitation:</p>
+                <ul class="list-disc pl-6 space-y-2">
+                <li>Enrollment within the specified intake period;</li>
+                <li>Completion of the required onboarding process;</li>
+                <li>Following the timetable, study plan, or academic instructions provided by the mentorship team;</li>
+                <li>Completing the required assignments, tests, assessments, or study targets;</li>
+                <li>Maintaining the required level of participation and engagement;</li>
+                <li>Appearing for specified tests or assessments;</li>
+                <li>Providing information or documentation required to evaluate eligibility;</li>
+                <li>Applying for the refund within the specified claim period; and</li>
+                <li>Meeting any minimum performance, participation, or compliance requirements specifically stated for that particular intake.</li>
+                </ul>
+                <p>The exact eligibility requirements and applicable time window will be communicated with the relevant mentorship offer.</p>
+                <p>A student shall not be eligible for a refund merely because the student’s score did not improve unless the student satisfies the complete conditions of the specific money-back guarantee applicable to their intake.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">5. No Automatic Refund Due to Non-Usage</h2>
+                <p>Non-usage or limited usage of a course or service does not automatically make a purchase refundable.</p>
+                <p>Refunds will not ordinarily be provided merely because a student:</p>
+                <ul class="list-disc pl-6 space-y-2">
+                <li>Did not attend classes;</li>
+                <li>Did not attempt tests;</li>
+                <li>Did not use the provided study material;</li>
+                <li>Did not access the course after purchasing it;</li>
+                <li>Changed their study strategy;</li>
+                <li>Changed their examination plans;</li>
+                <li>Became unavailable to continue the course;</li>
+                <li>Purchased the course by mistake; or</li>
+                <li>Decided that the course was not suitable for them,</li>
+                </ul>
+                <p>unless the specific course’s applicable refund terms expressly provide otherwise.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">6. Duplicate or Erroneous Payments</h2>
+                <p>If a student is charged more than once for the same transaction due to a genuine duplicate payment or payment-processing error, the Company may review the transaction and, where the duplicate payment is verified, process an appropriate refund of the duplicate amount.</p>
+                <p>The Company may request transaction details, payment references, screenshots, bank statements, or other information reasonably necessary to verify the claim.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">7. Refund Request Process</h2>
+                <p>Where a refund is permitted under the applicable course-specific policy, the student must submit a refund request through the official communication channel specified by MORVANT VENTURES PRIVATE LIMITED.</p>
+                <p>The request should include, where applicable:</p>
+                <ul class="list-disc pl-6 space-y-2">
+                <li>Student’s full name;</li>
+                <li>Registered mobile number;</li>
+                <li>Registered email address;</li>
+                <li>Course/program purchased;</li>
+                <li>Order/transaction ID;</li>
+                <li>Date of purchase;</li>
+                <li>Reason for the refund request;</li>
+                <li>Relevant supporting information/documents; and</li>
+                <li>Any additional information required under the applicable refund policy.</li>
+                </ul>
+                <p>A refund request does not guarantee approval. The request will be reviewed against the specific refund conditions applicable to the student’s purchase.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">8. Refund Review and Approval</h2>
+                <p>Once a valid refund request is received, MORVANT VENTURES PRIVATE LIMITED may verify:</p>
+                <ol class="list-decimal pl-6 space-y-2">
+                <li>The student’s purchase details;</li>
+                <li>The course/product purchased;</li>
+                <li>Whether the product was specifically refundable;</li>
+                <li>Whether the student falls within the applicable refund period;</li>
+                <li>Whether all eligibility requirements have been fulfilled; and</li>
+                <li>Any other conditions specified in the applicable course-specific refund policy.</li>
+                </ol>
+                <p>The Company reserves the right to reject refund requests that do not satisfy the applicable terms.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">9. Refund Processing Timeline</h2>
+                <p>Once a refund has been approved, it is generally processed within 15 working days.</p>
+                <p>The actual time taken for the refunded amount to appear in the student’s bank account, card, UPI account, or other payment method may additionally depend on the payment gateway, bank, card issuer, or financial institution involved.</p>
+                <p>The Company shall not ordinarily be responsible for delays caused by banks, payment gateways, payment processors, or other third-party financial institutions after the refund has been initiated.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">10. Refund Method</h2>
+                <p>Approved refunds will ordinarily be processed through the original payment method used for the transaction, wherever technically and operationally possible.</p>
+                <p>Where the original payment method cannot receive the refund, the Company may request alternative payment details or follow another reasonable refund procedure.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">11. Offers, Discounts and Promotional Sales</h2>
+                <p>Courses purchased under promotional pricing, discounts, coupons, limited-time offers, early-bird offers, festival sales, or other special campaigns remain subject to the refund policy applicable to that particular course.</p>
+                <p>A discount or promotional offer does not, by itself, make a course refundable.</p>
+                <p>If the relevant promotional offer expressly states that the purchase is refundable, the refund will be governed by the terms communicated with that offer.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">12. Course Access and Refunds</h2>
+                <p>Where a refund is approved, the Company may, where applicable, deactivate, suspend, or revoke the student’s access to the relevant course, test series, mentorship program, digital content, or associated services.</p>
+                <p>The Company may also revoke access where a refund is processed under a specific money-back guarantee.</p>
+                <p>The student shall not retain continued access to paid content after receiving a refund unless expressly permitted by the Company in writing.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">13. Technical Issues</h2>
+                <p>Temporary technical difficulties, server issues, application errors, payment gateway issues, or other technical problems do not automatically entitle a student to a refund.</p>
+                <p>Where reasonably possible, the Company may attempt to resolve the issue through:</p>
+                <ul class="list-disc pl-6 space-y-2">
+                <li>Technical troubleshooting;</li>
+                <li>Restoration of access;</li>
+                <li>Extension of course validity;</li>
+                <li>Replacement or restoration of affected content;</li>
+                <li>Alternative access arrangements; or</li>
+                <li>Another appropriate remedy.</li>
+                </ul>
+                <p>If a specific course’s terms provide a separate remedy for technical issues, those terms shall apply.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">14. Misuse, Violation of Terms and Fraudulent Claims</h2>
+                <p>Refunds may be denied where the Company reasonably determines that a refund request involves:</p>
+                <ul class="list-disc pl-6 space-y-2">
+                <li>Misrepresentation of facts;</li>
+                <li>Fraudulent or deceptive conduct;</li>
+                <li>Unauthorized sharing or distribution of course content;</li>
+                <li>Violation of the platform’s Terms &amp; Conditions;</li>
+                <li>Unauthorized downloading, copying, recording, or redistribution of educational content;</li>
+                <li>Abuse of refund or money-back policies; or</li>
+                <li>Any other material violation of the applicable terms of service.</li>
+                </ul>
+                <p>The Company reserves the right to take appropriate action in cases of suspected misuse or fraudulent activity.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">15. Changes to Refund Policies</h2>
+                <p>MORVANT VENTURES PRIVATE LIMITED may introduce different refund terms, money-back guarantees, or promotional refund conditions for specific courses, batches, programs, or campaigns from time to time.</p>
+                <p>Any such special policy will apply only to the specific course, intake, batch, or offer for which it has been expressly announced.</p>
+                <p>A special refund policy offered for one product or intake shall not be interpreted as creating a refund entitlement for other products or future purchases.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">16. Governing Terms</h2>
+                <p>This Refund &amp; Cancellation Policy should be read together with the Terms &amp; Conditions, Privacy Policy, and any course-specific terms applicable to the student’s purchase.</p>
+                <p>In case of a conflict between this general policy and a specific refund/guarantee policy expressly communicated for a particular course or intake, the specific course-specific refund terms shall govern that particular purchase, to the extent of the conflict.</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">17. Contact Us</h2>
+                <p>For questions regarding refunds, cancellations, or eligibility under a specific course’s refund policy, students may contact MORVANT VENTURES PRIVATE LIMITED through the official support/contact channels provided on the platform.</p>
+                <p>All refund requests must be submitted through the officially designated channels of MORVANT VENTURES PRIVATE LIMITED.</p>
+                <p>MORVANT VENTURES PRIVATE LIMITED reserves the right to review each refund request in accordance with the applicable terms and conditions.</p>
+                <div class="pt-6 border-t border-slate-200">
+                    <button onclick="navigateTo('home')" class="btn-glow text-white font-bold px-5 py-3 rounded-xl inline-flex items-center gap-2"><i class="ph ph-arrow-left"></i> Back to Home</button>
+                </div>
+            </article>
         </section>
     </div>
 
@@ -2278,181 +2754,6 @@ Email: morvantventures@gmail.com</p>
         </article>
     </section>
 </div>
-
-
-    <!-- ========================================================================= -->
-    <!-- TAB 9: REFUND & CANCELLATION POLICY                                      -->
-    <!-- ========================================================================= -->
-    <div id="page-refund" class="page-view">
-        <section class="py-12 sm:py-16 bg-navy-950 text-white text-center">
-            <div class="max-w-4xl mx-auto px-4 min-w-0">
-                <span class="text-xs font-mono font-bold uppercase tracking-widest text-cyan-400 bg-cyan-950 px-3 py-1 rounded-full border border-cyan-800">Customer Support &amp; Legal</span>
-                <h1 class="text-3xl sm:text-5xl font-black mt-3">Refund &amp; Cancellation Policy</h1>
-                <p class="text-slate-300 text-sm mt-3">Operated by: MORVANT VENTURES PRIVATE LIMITED</p>
-                <p class="text-slate-400 text-xs sm:text-sm mt-1">Last Updated: September 2026</p>
-            </div>
-        </section>
-        <section class="py-8 sm:py-14 bg-white text-slate-700 leading-relaxed">
-            <article class="refund-policy-content max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 text-sm sm:text-base">
-                <p>This Refund &amp; Cancellation Policy governs purchases made through the Aditya Joshi platform, including its website, mobile applications, mentorship programs, test series, courses, digital learning content, subscriptions, and other educational services operated by MORVANT VENTURES PRIVATE LIMITED (“Company”, “we”, “us”, or “our”).</p>
-                <p>By purchasing any course, program, test series, subscription, or digital educational product from us, you acknowledge that you have read and agreed to this Refund &amp; Cancellation Policy.</p>
-                <p class="text-sm text-slate-500">Operated by: MORVANT VENTURES PRIVATE LIMITED</p>
-                <p class="text-sm text-slate-500">Last Updated: September 2026</p>
-                <p>This Refund &amp; Cancellation Policy governs purchases made through the Aditya Joshi platform, including its website, mobile applications, mentorship programs, test series, courses, digital learning content, subscriptions, and other educational services operated by MORVANT VENTURES PRIVATE LIMITED (“Company”, “we”, “us”, or “our”).</p>
-                <p>By purchasing any course, program, test series, subscription, or digital educational product from us, you acknowledge that you have read and agreed to this Refund &amp; Cancellation Policy.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">1. General Refund Policy</h2>
-                <p>The default policy of MORVANT VENTURES PRIVATE LIMITED is that all courses, programs, test series, subscriptions, and digital products are non-refundable unless the specific course or product is expressly identified as refundable at the time of purchase.</p>
-                <p>Simply purchasing a course does not create a right to a refund.</p>
-                <p>A refund will be considered only where:</p>
-                <ol class="list-decimal pl-6 space-y-2">
-                <li>The specific course or product is expressly advertised or described as “Refundable,” “Money-Back Guarantee,” “Guaranteed Score Improvement,” or under another clearly stated refund/guarantee policy; and</li>
-                <li>The student satisfies all conditions, eligibility requirements, timelines, and other terms specified for that particular refund policy.</li>
-                </ol>
-                <p>If no refund or money-back provision is specifically mentioned on the relevant course/product page, checkout page, offer, or applicable written terms, the course/product shall be treated as non-refundable.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">2. Course-Specific Refund Policies</h2>
-                <p>Different courses and programs may have different refund conditions.</p>
-                <p>The refund terms applicable to a particular course will be determined by the refund policy specifically communicated for that course at the time of purchase.</p>
-                <p>Where a course is specifically marked as refundable, the applicable course-specific terms shall take precedence over the general provisions of this policy to the extent of any inconsistency.</p>
-                <p>Where a course is not specifically marked as refundable, no refund shall ordinarily be available.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">3. Surya Plus Paper Prediction Test Series</h2>
-                <p>The Surya Plus Paper Prediction Test Series, including its different editions, versions, batches, mock tests, and related digital test-series products, is a NON-REFUNDABLE PRODUCT, unless MORVANT VENTURES PRIVATE LIMITED expressly announces otherwise for a particular offering in writing.</p>
-                <p>Accordingly:</p>
-                <ul class="list-disc pl-6 space-y-2">
-                <li>Payment made for Surya Plus is generally final and non-refundable.</li>
-                <li>Non-use of the test series does not create an automatic right to a refund.</li>
-                <li>Failure to attempt tests, incomplete usage, lack of preparation, change of study plans, change of examination plans, or personal circumstances do not ordinarily qualify for a refund.</li>
-                <li>Technical issues, where applicable, may be addressed by the Company through troubleshooting, restoration of access, extension of validity, or another appropriate solution at the Company’s discretion, rather than through a refund.</li>
-                <li>Any promotional offer, discount, coupon, or limited-period sale does not alter the non-refundable nature of the product unless expressly stated otherwise.</li>
-                </ul>
-                <p>Any exceptional refund or compensation arrangement, if offered for a particular Surya Plus batch or promotion, will be governed by the specific terms communicated with that offer.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">4. Mentorship Program</h2>
-                <p>The Aditya Joshi Mentorship Program is generally NON-REFUNDABLE.</p>
-                <p>However, MORVANT VENTURES PRIVATE LIMITED may, for selected mentorship intakes or specific promotional offers, introduce a Money-Back Guarantee, Guaranteed Score Improvement, or similar refund-based assurance.</p>
-                <p>Such a guarantee will apply only when it is expressly mentioned in the relevant course description, enrollment page, offer, or written terms applicable to that particular intake.</p>
-                <p>A money-back guarantee offered for one mentorship intake shall not automatically apply to:</p>
-                <ul class="list-disc pl-6 space-y-2">
-                <li>Previous or subsequent intakes;</li>
-                <li>Other mentorship plans;</li>
-                <li>Monthly or yearly plans that do not expressly contain the guarantee;</li>
-                <li>Other courses or products offered by MORVANT VENTURES PRIVATE LIMITED.</li>
-                </ul>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">4.1 Conditions of a Mentorship Money-Back Guarantee</h2>
-                <p>Where a specific mentorship intake includes a money-back or guaranteed score-improvement policy, the student must satisfy all conditions stated in the applicable guarantee terms.</p>
-                <p>These conditions may include, without limitation:</p>
-                <ul class="list-disc pl-6 space-y-2">
-                <li>Enrollment within the specified intake period;</li>
-                <li>Completion of the required onboarding process;</li>
-                <li>Following the timetable, study plan, or academic instructions provided by the mentorship team;</li>
-                <li>Completing the required assignments, tests, assessments, or study targets;</li>
-                <li>Maintaining the required level of participation and engagement;</li>
-                <li>Appearing for specified tests or assessments;</li>
-                <li>Providing information or documentation required to evaluate eligibility;</li>
-                <li>Applying for the refund within the specified claim period; and</li>
-                <li>Meeting any minimum performance, participation, or compliance requirements specifically stated for that particular intake.</li>
-                </ul>
-                <p>The exact eligibility requirements and applicable time window will be communicated with the relevant mentorship offer.</p>
-                <p>A student shall not be eligible for a refund merely because the student’s score did not improve unless the student satisfies the complete conditions of the specific money-back guarantee applicable to their intake.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">5. No Automatic Refund Due to Non-Usage</h2>
-                <p>Non-usage or limited usage of a course or service does not automatically make a purchase refundable.</p>
-                <p>Refunds will not ordinarily be provided merely because a student:</p>
-                <ul class="list-disc pl-6 space-y-2">
-                <li>Did not attend classes;</li>
-                <li>Did not attempt tests;</li>
-                <li>Did not use the provided study material;</li>
-                <li>Did not access the course after purchasing it;</li>
-                <li>Changed their study strategy;</li>
-                <li>Changed their examination plans;</li>
-                <li>Became unavailable to continue the course;</li>
-                <li>Purchased the course by mistake; or</li>
-                <li>Decided that the course was not suitable for them,</li>
-                </ul>
-                <p>unless the specific course’s applicable refund terms expressly provide otherwise.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">6. Duplicate or Erroneous Payments</h2>
-                <p>If a student is charged more than once for the same transaction due to a genuine duplicate payment or payment-processing error, the Company may review the transaction and, where the duplicate payment is verified, process an appropriate refund of the duplicate amount.</p>
-                <p>The Company may request transaction details, payment references, screenshots, bank statements, or other information reasonably necessary to verify the claim.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">7. Refund Request Process</h2>
-                <p>Where a refund is permitted under the applicable course-specific policy, the student must submit a refund request through the official communication channel specified by MORVANT VENTURES PRIVATE LIMITED.</p>
-                <p>The request should include, where applicable:</p>
-                <ul class="list-disc pl-6 space-y-2">
-                <li>Student’s full name;</li>
-                <li>Registered mobile number;</li>
-                <li>Registered email address;</li>
-                <li>Course/program purchased;</li>
-                <li>Order/transaction ID;</li>
-                <li>Date of purchase;</li>
-                <li>Reason for the refund request;</li>
-                <li>Relevant supporting information/documents; and</li>
-                <li>Any additional information required under the applicable refund policy.</li>
-                </ul>
-                <p>A refund request does not guarantee approval. The request will be reviewed against the specific refund conditions applicable to the student’s purchase.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">8. Refund Review and Approval</h2>
-                <p>Once a valid refund request is received, MORVANT VENTURES PRIVATE LIMITED may verify:</p>
-                <ol class="list-decimal pl-6 space-y-2">
-                <li>The student’s purchase details;</li>
-                <li>The course/product purchased;</li>
-                <li>Whether the product was specifically refundable;</li>
-                <li>Whether the student falls within the applicable refund period;</li>
-                <li>Whether all eligibility requirements have been fulfilled; and</li>
-                <li>Any other conditions specified in the applicable course-specific refund policy.</li>
-                </ol>
-                <p>The Company reserves the right to reject refund requests that do not satisfy the applicable terms.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">9. Refund Processing Timeline</h2>
-                <p>Once a refund has been approved, it is generally processed within 15 working days.</p>
-                <p>The actual time taken for the refunded amount to appear in the student’s bank account, card, UPI account, or other payment method may additionally depend on the payment gateway, bank, card issuer, or financial institution involved.</p>
-                <p>The Company shall not ordinarily be responsible for delays caused by banks, payment gateways, payment processors, or other third-party financial institutions after the refund has been initiated.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">10. Refund Method</h2>
-                <p>Approved refunds will ordinarily be processed through the original payment method used for the transaction, wherever technically and operationally possible.</p>
-                <p>Where the original payment method cannot receive the refund, the Company may request alternative payment details or follow another reasonable refund procedure.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">11. Offers, Discounts and Promotional Sales</h2>
-                <p>Courses purchased under promotional pricing, discounts, coupons, limited-time offers, early-bird offers, festival sales, or other special campaigns remain subject to the refund policy applicable to that particular course.</p>
-                <p>A discount or promotional offer does not, by itself, make a course refundable.</p>
-                <p>If the relevant promotional offer expressly states that the purchase is refundable, the refund will be governed by the terms communicated with that offer.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">12. Course Access and Refunds</h2>
-                <p>Where a refund is approved, the Company may, where applicable, deactivate, suspend, or revoke the student’s access to the relevant course, test series, mentorship program, digital content, or associated services.</p>
-                <p>The Company may also revoke access where a refund is processed under a specific money-back guarantee.</p>
-                <p>The student shall not retain continued access to paid content after receiving a refund unless expressly permitted by the Company in writing.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">13. Technical Issues</h2>
-                <p>Temporary technical difficulties, server issues, application errors, payment gateway issues, or other technical problems do not automatically entitle a student to a refund.</p>
-                <p>Where reasonably possible, the Company may attempt to resolve the issue through:</p>
-                <ul class="list-disc pl-6 space-y-2">
-                <li>Technical troubleshooting;</li>
-                <li>Restoration of access;</li>
-                <li>Extension of course validity;</li>
-                <li>Replacement or restoration of affected content;</li>
-                <li>Alternative access arrangements; or</li>
-                <li>Another appropriate remedy.</li>
-                </ul>
-                <p>If a specific course’s terms provide a separate remedy for technical issues, those terms shall apply.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">14. Misuse, Violation of Terms and Fraudulent Claims</h2>
-                <p>Refunds may be denied where the Company reasonably determines that a refund request involves:</p>
-                <ul class="list-disc pl-6 space-y-2">
-                <li>Misrepresentation of facts;</li>
-                <li>Fraudulent or deceptive conduct;</li>
-                <li>Unauthorized sharing or distribution of course content;</li>
-                <li>Violation of the platform’s Terms &amp; Conditions;</li>
-                <li>Unauthorized downloading, copying, recording, or redistribution of educational content;</li>
-                <li>Abuse of refund or money-back policies; or</li>
-                <li>Any other material violation of the applicable terms of service.</li>
-                </ul>
-                <p>The Company reserves the right to take appropriate action in cases of suspected misuse or fraudulent activity.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">15. Changes to Refund Policies</h2>
-                <p>MORVANT VENTURES PRIVATE LIMITED may introduce different refund terms, money-back guarantees, or promotional refund conditions for specific courses, batches, programs, or campaigns from time to time.</p>
-                <p>Any such special policy will apply only to the specific course, intake, batch, or offer for which it has been expressly announced.</p>
-                <p>A special refund policy offered for one product or intake shall not be interpreted as creating a refund entitlement for other products or future purchases.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">16. Governing Terms</h2>
-                <p>This Refund &amp; Cancellation Policy should be read together with the Terms &amp; Conditions, Privacy Policy, and any course-specific terms applicable to the student’s purchase.</p>
-                <p>In case of a conflict between this general policy and a specific refund/guarantee policy expressly communicated for a particular course or intake, the specific course-specific refund terms shall govern that particular purchase, to the extent of the conflict.</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-navy-950 pt-5">17. Contact Us</h2>
-                <p>For questions regarding refunds, cancellations, or eligibility under a specific course’s refund policy, students may contact MORVANT VENTURES PRIVATE LIMITED through the official support/contact channels provided on the platform.</p>
-                <p>All refund requests must be submitted through the officially designated channels of MORVANT VENTURES PRIVATE LIMITED.</p>
-                <p>MORVANT VENTURES PRIVATE LIMITED reserves the right to review each refund request in accordance with the applicable terms and conditions.</p>
-                <div class="pt-6 border-t border-slate-200">
-                    <button onclick="navigateTo('home')" class="btn-glow text-white font-bold px-5 py-3 rounded-xl inline-flex items-center gap-2"><i class="ph ph-arrow-left"></i> Back to Home</button>
-                </div>
-            </article>
-        </section>
-    </div>
-
     <!-- 3. FOOTER (WITH TERMS AND CONDITIONS & PRIVACY POLICY ATTACHED) -->
     <footer class="bg-navy-950 text-slate-400 pt-16 pb-12 border-t border-cyan-500/20 text-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -2460,7 +2761,7 @@ Email: morvantventures@gmail.com</p>
                 
                 <!-- Col 1: Logo & Brand Description -->
                 <div class="space-y-4">
-                    <img src="https://d502jbuhuh9wk.cloudfront.net/logos/664a14d52fd4b2450b59600e.png?v=2" 
+                    <img src="./logo.png" 
                          alt="Aditya Joshi" class="h-10 w-auto object-contain brightness-200">
                     <p class="text-xs text-slate-400 leading-relaxed">
                         India's Premier Medical Mentorship. Empowering the brightest minds through proven guidance from AIIMS toppers.
@@ -2533,6 +2834,7 @@ Email: morvantventures@gmail.com</p>
         </div>
     </div>
 
+    
 <!-- 3. FULL 30-MOCK RELEASE SCHEDULE MODAL -->
     <div id="schedule-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">
         <div class="relative w-full max-w-2xl bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200 my-8 max-h-[90vh] overflow-y-auto">
@@ -2689,14 +2991,18 @@ Email: morvantventures@gmail.com</p>
         // MOBILE DRAWER TOGGLE
         const mobileToggleBtn = document.getElementById('mobile-toggle-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        function toggleMobileMenu() {
+        function dismissRoadblock() {
+            const roadblock = document.getElementById('site-roadblock');
+            if (roadblock) roadblock.remove();
+        }
+function toggleMobileMenu() {
             if (mobileMenu) mobileMenu.classList.toggle('hidden');
         }
         if (mobileToggleBtn) {
             mobileToggleBtn.addEventListener('click', toggleMobileMenu);
         }
 
-// YOUTUBE VIDEO MODAL
+        // YOUTUBE VIDEO MODAL
         function openProofVideo(videoId, title) {
             const modal = document.getElementById('video-proof-modal');
             const iframe = document.getElementById('video-modal-iframe');
@@ -2719,8 +3025,6 @@ Email: morvantventures@gmail.com</p>
                 document.body.style.overflow = '';
             }
         }
-
-
 
         // SCHEDULE MODAL
         function openScheduleModal() {
@@ -2789,11 +3093,43 @@ Email: morvantventures@gmail.com</p>
             }
         }
 
-        // CONTACT FORM SUBMISSION
-        function handleContactSubmit(e) {
+        // CONTACT FORM SUBMISSION — sends Contact Us entries to Google Sheets.
+        // Replace the placeholder below with the Web App URL from your Google Apps Script deployment.
+        const CONTACT_GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwkFfRSgBEKPN71FTzANJOy8oozGG_GrkCxwf6CsFlRjc3lVkg5VF4MoxCJhs3gmZUaMA/exec";
+
+        async function handleContactSubmit(e) {
             e.preventDefault();
-            alert("Thank you! Your message has been sent to Aditya Joshi's mentorship team. We will get in touch on WhatsApp.");
-            e.target.reset();
+            const form = e.target;
+            const button = document.getElementById('contact-submit-btn');
+            const status = document.getElementById('contact-form-status');
+
+            if (!CONTACT_GOOGLE_SCRIPT_URL || CONTACT_GOOGLE_SCRIPT_URL.includes("PASTE_YOUR_")) {
+                status.textContent = "Contact form is not configured yet. Please try again later.";
+                status.className = "text-sm text-center text-rose-600";
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = "Submitting...";
+            status.className = "hidden text-sm text-center";
+            try {
+                // Google Apps Script accepts FormData via POST. With no-cors, the browser
+                // cannot read the response, so this confirms the request was sent, not verified.
+                await fetch(CONTACT_GOOGLE_SCRIPT_URL, {
+                    method: "POST",
+                    body: new FormData(form),
+                    mode: "no-cors"
+                });
+                form.reset();
+                status.textContent = "Thank you! Your message has been submitted. Our team will get in touch.";
+                status.className = "text-sm text-center text-emerald-700";
+            } catch (error) {
+                status.textContent = "Unable to submit right now. Please check your internet connection and try again.";
+                status.className = "text-sm text-center text-rose-600";
+            } finally {
+                button.disabled = false;
+                button.textContent = "Submit";
+            }
         }
 
         // FAQ ACCORDION
@@ -2856,124 +3192,93 @@ Email: morvantventures@gmail.com</p>
         }
     </script>
 
-   ```html
-<!-- Surya Plus Purchase Alert - TEST DEMO -->
-<div id="sample-activity-toast"
-     class="sample-activity-toast"
-     role="status"
-     aria-live="polite"
-     aria-atomic="true">
 
-    <div class="sample-activity-icon">
-        <i class="ph ph-shopping-cart"></i>
+    <!-- TEST DEMO: rotating sample purchase-style toast; fictional entries -->
+    <div id="sample-activity-toast" class="sample-activity-toast" role="status"
+         aria-live="polite" aria-atomic="true">
+        <div class="sample-activity-icon"><i class="ph ph-shopping-cart"></i></div>
+        <div class="min-w-0 flex-1">
+            <p id="sample-activity-person" class="font-extrabold text-sm leading-snug">
+                Mohan just downloaded application from Delhi
+            </p>
+            <p id="sample-activity-message" class="text-xs mt-1">
+                
+            </p>
+        </div>
+        <button type="button" onclick="dismissSampleActivity()" aria-label="Dismiss notification"
+                class="ml-auto text-slate-400 hover:text-slate-700 text-lg leading-none">&times;</button>
     </div>
 
-    <div class="min-w-0">
-        <p id="sample-activity-person"
-           class="font-extrabold text-sm leading-snug">
-            Mohan just bought Surya Plus Test Series from Delhi
-        </p>
-
-        <p id="sample-activity-message"
-           class="text-xs text-slate-600 mt-1">
-            TEST DEMO · Sample notification
-        </p>
-    </div>
-
-    <button type="button"
-            onclick="dismissSampleActivity()"
-            aria-label="Dismiss notification"
-            class="ml-auto text-slate-400 hover:text-slate-700 text-lg leading-none">
-        &times;
-    </button>
-</div>
-
-<script>
-    // TEST DATA ONLY — these are fictional names and locations.
-    const sampleActivityEntries = [
-        { name: "Mohan", city: "Delhi" },
-        { name: "Aman", city: "Meerut" },
-        { name: "Rahul", city: "Noida" },
-        { name: "Aditya", city: "Ghaziabad" },
-        { name: "Priya", city: "Lucknow" },
-        { name: "Arjun", city: "Kanpur" },
-        { name: "Ankit", city: "Agra" },
-        { name: "Shivam", city: "Prayagraj" },
-        { name: "Rohit", city: "Varanasi" },
-        { name: "Neha", city: "Gorakhpur" },
-        { name: "Karan", city: "Bareilly" },
-        { name: "Vikas", city: "Dehradun" },
-        { name: "Pooja", city: "Haridwar" },
-        { name: "Saurabh", city: "Jaipur" },
-        { name: "Nitin", city: "Kota" },
-        { name: "Anjali", city: "Patna" },
-        { name: "Deepak", city: "Chandigarh" },
-        { name: "Varun", city: "Bhopal" },
-        { name: "Riya", city: "Indore" },
-        { name: "Akash", city: "Mumbai" },
-        { name: "Manish", city: "Pune" },
-        { name: "Kunal", city: "Ranchi" },
-        { name: "Sneha", city: "Gurugram" },
-        { name: "Harsh", city: "Faridabad" },
-        { name: "Yash", city: "Ahmedabad" }
-    ];
-
-    let sampleActivityIndex = 0;
-    let sampleActivityTimer = null;
-    let sampleActivityInterval = null;
-
-    function showSampleActivity() {
-        const toast = document.getElementById("sample-activity-toast");
-        const person = document.getElementById("sample-activity-person");
-        const message = document.getElementById("sample-activity-message");
-
-        if (!toast || !person || !message) return;
-
-        const entry = sampleActivityEntries[
-            sampleActivityIndex % sampleActivityEntries.length
+    <script>
+        // TEST DEMO ONLY: fictional names and cities, not actual customer purchase records.
+        const sampleActivityEntries = [
+            { name: "Mohan", city: "Delhi" },
+            { name: "Aman", city: "Meerut" },
+            { name: "Rahul", city: "Noida" },
+            { name: "Aditya", city: "Ghaziabad" },
+            { name: "Priya", city: "Lucknow" },
+            { name: "Arjun", city: "Kanpur" },
+            { name: "Ankit", city: "Agra" },
+            { name: "Shivam", city: "Prayagraj" },
+            { name: "Rohit", city: "Varanasi" },
+            { name: "Neha", city: "Gorakhpur" },
+            { name: "Karan", city: "Bareilly" },
+            { name: "Vikas", city: "Dehradun" },
+            { name: "Pooja", city: "Haridwar" },
+            { name: "Saurabh", city: "Jaipur" },
+            { name: "Nitin", city: "Kota" },
+            { name: "Anjali", city: "Patna" },
+            { name: "Deepak", city: "Chandigarh" },
+            { name: "Varun", city: "Bhopal" },
+            { name: "Riya", city: "Indore" },
+            { name: "Akash", city: "Mumbai" },
+            { name: "Manish", city: "Pune" },
+            { name: "Kunal", city: "Ranchi" },
+            { name: "Sneha", city: "Gurugram" },
+            { name: "Harsh", city: "Faridabad" },
+            { name: "Yash", city: "Ahmedabad" }
         ];
 
-        person.textContent =
-            entry.name + " just bought Surya Plus Test Series from " +
-            entry.city;
+        let sampleActivityIndex = 0;
+        let sampleActivityTimer = null;
+        let sampleActivityInterval = null;
 
-        message.textContent = "Congratulations";
+        function showSampleActivity() {
+            const toast = document.getElementById("sample-activity-toast");
+            const person = document.getElementById("sample-activity-person");
+            const message = document.getElementById("sample-activity-message");
+            if (!toast || !person || !message || !sampleActivityEntries.length) return;
 
-        toast.classList.add("is-visible");
+            const entry = sampleActivityEntries[
+                sampleActivityIndex % sampleActivityEntries.length
+            ];
 
-        sampleActivityIndex++;
+            person.textContent =
+                entry.name + " downloaded application from " + entry.city;
+            message.textContent = "";
 
-        clearTimeout(sampleActivityTimer);
+            toast.classList.add("is-visible");
+            sampleActivityIndex++;
 
-        sampleActivityTimer = setTimeout(() => {
-            toast.classList.remove("is-visible");
-        }, 4800);
-    }
-
-    function dismissSampleActivity() {
-        const toast = document.getElementById("sample-activity-toast");
-
-        if (toast) {
-            toast.classList.remove("is-visible");
+            clearTimeout(sampleActivityTimer);
+            sampleActivityTimer = setTimeout(() => {
+                toast.classList.remove("is-visible");
+            }, 4800);
         }
 
-        clearTimeout(sampleActivityTimer);
-    }
+        function dismissSampleActivity() {
+            const toast = document.getElementById("sample-activity-toast");
+            if (toast) toast.classList.remove("is-visible");
+            clearTimeout(sampleActivityTimer);
+        }
 
-    window.addEventListener("load", () => {
-        if (sampleActivityEntries.length === 0) return;
-
-        setTimeout(() => {
-            showSampleActivity();
-
-            sampleActivityInterval = setInterval(
-                showSampleActivity,
-                7000
-            );
-        }, 2500);
-    });
-</script>
-```
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                showSampleActivity();
+                sampleActivityInterval = setInterval(showSampleActivity, 7000);
+            }, 2500);
+        });
+    </script>
 
 </body>
 </html>
